@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ন্যাপ ফিজিক্স কেয়ার সেন্টার — আলটিমেট</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--p:#06b6d4;--p2:#0891b2;--s:#8b5cf6;--s2:#7c3aed;
+--ok:#10b981;--no:#ef4444;--warn:#f59e0b;--info:#3b82f6;
+--bg:#0a0e1a;--bg2:rgba(15,23,42,.6);--bg3:rgba(15,23,42,.5);
+--glass:rgba(255,255,255,.12);--glass2:rgba(255,255,255,.06);
+--gborder:rgba(255,255,255,.18);--text:#e2e8f0;--text2:rgba(255,255,255,.5);
+--text3:rgba(255,255,255,.4);--text4:rgba(255,255,255,.7);
+--card-bg:rgba(15,23,42,.6);--card-border:rgba(255,255,255,.08);
+--glow:0 8px 32px rgba(6,182,212,.15);--r:16px;--t:.3s cubic-bezier(.4,0,.2,1)
+}
+.light-mode{
+--bg:#f0f4f8;--bg2:rgba(255,255,255,.9);--bg3:rgba(255,255,255,.8);
+--glass:rgba(0,0,0,.04);--glass2:rgba(0,0,0,.02);
+--gborder:rgba(0,0,0,.1);--text:#1e293b;--text2:rgba(0,0,0,.5);
+--text3:rgba(0,0,0,.4);--text4:rgba(0,0,0,.7);
+--card-bg:rgba(255,255,255,.9);--card-border:rgba(0,0,0,.08);
+--glow:0 8px 32px rgba(6,182,212,.1)
+}
+body{font-family:'Hind Siliguri',sans-serif;background:var(--bg);min-height:100vh;color:var(--text);overflow-x:hidden;transition:background .5s,color .5s}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 40%,rgba(6,182,212,.08) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(139,92,246,.08) 0%,transparent 50%);z-index:-1;animation:bgShift 20s ease infinite}
+.light-mode body::before{background:radial-gradient(circle at 30% 40%,rgba(6,182,212,.04) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(139,92,246,.04) 0%,transparent 50%)}
+@keyframes bgShift{0%,100%{transform:rotate(0deg)}50%{transform:rotate(3deg)}}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:linear-gradient(var(--p),var(--s));border-radius:10px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(6,182,212,.2)}50%{box-shadow:0 0 40px rgba(6,182,212,.4)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes slideIn{from{transform:translateX(-100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(.9)}100%{transform:scale(1);opacity:1}}
+@keyframes confetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-200px) rotate(720deg);opacity:0}}
+@keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-5px)}20%,40%,60%,80%{transform:translateX(5px)}}
+@keyframes rainbow{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
+@keyframes typewriter{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes ripple{0%{transform:scale(0);opacity:.6}100%{transform:scale(4);opacity:0}}
+@keyframes spin3d{0%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.glass{background:var(--glass);backdrop-filter:blur(20px) saturate(1.2);border:1px solid var(--gborder);box-shadow:var(--glow)}
+
+/* LOGIN */
+.lp{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,var(--bg) 0%,#1a1040 50%,var(--bg) 100%);position:relative;overflow:hidden}
+.light-mode .lp{background:linear-gradient(135deg,#e0e7ff 0%,#f0f4f8 50%,#e0e7ff 100%)}
+.lp::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(6,182,212,.15),transparent 70%);top:-100px;right:-100px;animation:float 8s infinite}
+.lp::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.12),transparent 70%);bottom:-100px;left:-100px;animation:float 10s infinite reverse}
+.lc{background:var(--bg2);backdrop-filter:blur(30px) saturate(1.5);border:1px solid var(--card-border);border-radius:28px;padding:44px 36px;max-width:440px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.3);position:relative;z-index:1;animation:bounceIn .8s}
+.logo{width:96px;height:96px;background:linear-gradient(135deg,var(--p),var(--s));border-radius:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:float 4s infinite,glow 3s infinite;position:relative}
+.logo::after{content:'';position:absolute;inset:-4px;border-radius:30px;background:linear-gradient(135deg,var(--p),var(--s));opacity:.3;filter:blur(15px);z-index:-1}
+.logo i{font-size:42px;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+.lc h1{font-size:26px;text-align:center;background:linear-gradient(135deg,var(--text),var(--p),var(--s));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;margin-bottom:4px}
+.lc .sub{color:var(--text2);text-align:center;font-size:13px;margin-bottom:6px}
+.lc .clk{color:var(--p);text-align:center;font-size:18px;font-weight:600;margin-bottom:18px;font-family:monospace;text-shadow:0 0 20px rgba(6,182,212,.5)}
+.tabs{display:flex;gap:4px;background:var(--glass2);padding:4px;border-radius:14px;margin-bottom:22px;border:1px solid var(--card-border)}
+.tabs button{flex:1;padding:10px;border:none;background:0;border-radius:10px;color:var(--text3);font-size:14px;font-weight:600;cursor:pointer;transition:var(--t);font-family:inherit}
+.tabs button.on{background:linear-gradient(135deg,var(--p2),var(--s2));color:#fff;box-shadow:0 4px 20px rgba(6,182,212,.4)}
+.fg{margin-bottom:15px}
+.fg label{display:block;color:var(--text2);font-weight:500;margin-bottom:5px;font-size:13px}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px 16px;border:1.5px solid var(--card-border);border-radius:12px;font-size:14px;font-family:inherit;background:var(--glass2);color:var(--text);transition:var(--t);outline:0;backdrop-filter:blur(10px)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--text3)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(6,182,212,.15),0 0 20px rgba(6,182,212,.1);background:var(--glass)}
+.btn{padding:11px 22px;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;color:#fff;transition:var(--t);font-family:inherit;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);opacity:0;transition:var(--t)}
+.btn:hover::before{opacity:1}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+.btn:active{transform:scale(.97)}
+.btn-p{background:linear-gradient(135deg,var(--p2),var(--s2))}
+.btn-ok{background:linear-gradient(135deg,var(--ok),#059669)}
+.btn-no{background:linear-gradient(135deg,var(--no),#dc2626)}
+.btn-w{background:linear-gradient(135deg,var(--warn),#d97706)}
+.btn-i{background:linear-gradient(135deg,var(--info),#2563eb)}
+.btn-full{width:100%}
+.btn-sm{padding:8px 14px;font-size:12px}
+.btn-xs{padding:6px 10px;font-size:11px;border-radius:8px}
+
+/* DASHBOARD */
+.dash{min-height:100vh;display:none;background:var(--bg)}
+.dash.show{display:block}
+.hdr{background:var(--bg2);backdrop-filter:blur(20px) saturate(1.3);padding:12px 22px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--card-border)}
+.hdr-t{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700}
+.hdr-t i{color:var(--p);filter:drop-shadow(0 0 8px rgba(6,182,212,.5))}
+.hdr-clk{font-size:13px;color:var(--p);font-family:monospace;background:rgba(6,182,212,.1);padding:5px 12px;border-radius:8px;border:1px solid rgba(6,182,212,.2)}
+.hdr-acts{display:flex;gap:8px}
+.hdr-btn{width:36px;height:36px;border:none;border-radius:10px;background:var(--glass2);backdrop-filter:blur(10px);cursor:pointer;font-size:15px;transition:var(--t);color:var(--text3);border:1px solid var(--card-border)}
+.hdr-btn:hover{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;box-shadow:0 0 20px rgba(6,182,212,.3)}
+.cnt{max-width:1200px;margin:0 auto;padding:20px;padding-bottom:100px}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
+.sc{border-radius:18px;padding:18px;display:flex;align-items:center;gap:14px;transition:var(--t);animation:fadeUp .5s both;cursor:default;background:var(--card-bg);backdrop-filter:blur(20px);border:1px solid var(--card-border);position:relative;overflow:hidden}
+.sc:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.2);border-color:rgba(255,255,255,.15)}
+.sc-i{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;flex-shrink:0}
+.sc-v{font-size:24px;font-weight:800;line-height:1;background:linear-gradient(135deg,var(--text),var(--text4));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sc-l{font-size:11px;color:var(--text3);font-weight:500}
+
+/* SECTIONS */
+.sec{border-radius:20px;padding:24px;margin-bottom:20px;animation:fadeUp .4s both;background:var(--bg3);backdrop-filter:blur(20px) saturate(1.2);border:1px solid var(--card-border);position:relative;overflow:hidden}
+.sec::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--card-border),transparent)}
+.sec-t{font-size:17px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.sec-t i{color:var(--p);filter:drop-shadow(0 0 6px rgba(6,182,212,.4))}
+.sec[hidden]{display:none}
+
+/* BATCH */
+.batches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.bb{padding:9px 18px;border:1.5px solid var(--card-border);border-radius:12px;background:var(--glass2);color:var(--text2);font-size:13px;font-weight:600;cursor:pointer;transition:var(--t);font-family:inherit}
+.bb.on{background:linear-gradient(135deg,var(--p2),var(--s2));color:#fff;border-color:transparent;box-shadow:0 4px 20px rgba(6,182,212,.3)}
+.bb:hover:not(.on){border-color:var(--p);color:var(--p)}
+
+/* TABLE */
+.tw{overflow-x:auto;margin:12px 0;border-radius:14px;border:1px solid var(--card-border)}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th{padding:10px 14px;text-align:left;background:rgba(6,182,212,.1);color:var(--p);font-size:12px;font-weight:600;border-bottom:1px solid var(--card-border);text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 14px;border-bottom:1px solid var(--card-border);font-size:13px;color:var(--text4)}
+tr:hover td{background:var(--glass2)}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;color:#fff}
+.badge-ok{background:rgba(16,185,129,.3);border:1px solid rgba(16,185,129,.4);color:#34d399}
+.badge-no{background:rgba(239,68,68,.3);border:1px solid rgba(239,68,68,.4);color:#f87171}
+.badge-w{background:rgba(245,158,11,.3);border:1px solid rgba(245,158,11,.4);color:#fbbf24}
+.badge-i{background:rgba(59,130,246,.3);border:1px solid rgba(59,130,246,.4);color:#60a5fa}
+.badge-g{background:rgba(100,116,139,.3);border:1px solid rgba(100,116,139,.4);color:#94a3b8}
+
+/* ATT ROW */
+.ar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--card-border);transition:var(--t);animation:slideIn .3s both}
+.ar:hover{background:var(--glass2);border-radius:10px}
+.ar select{padding:7px 12px;border-radius:10px;border:1px solid var(--card-border);font-size:13px;font-family:inherit;cursor:pointer;background:var(--glass2);color:var(--text)}
+.att-sum{display:flex;gap:16px;padding:12px 16px;background:var(--glass2);border-radius:12px;margin-bottom:12px;flex-wrap:wrap;font-size:13px;border:1px solid var(--card-border)}
+.att-sum span{font-weight:600;color:var(--text2)}
+.att-sum b{color:var(--text)}
+
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:12px 0}
+.cal-hdr{text-align:center;font-size:11px;color:var(--p);font-weight:600;padding:4px}
+.cal-day{text-align:center;padding:8px 4px;border-radius:8px;font-size:12px;cursor:default;transition:var(--t);border:1px solid transparent}
+.cal-day.present{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.3);color:#34d399}
+.cal-day.absent{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:#f87171}
+.cal-day.late{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.3);color:#fbbf24}
+.cal-day.empty{color:var(--text3)}
+.cal-day.today{box-shadow:0 0 0 2px var(--p);font-weight:700}
+
+/* FINE CARD */
+.fc{padding:13px 16px;border-left:3px solid var(--no);background:rgba(239,68,68,.06);border-radius:0 12px 12px 0;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;transition:var(--t);flex-wrap:wrap;gap:8px;font-size:13px;border:1px solid rgba(239,68,68,.1);animation:slideIn .3s both}
+.fc.paid{border-left-color:var(--ok);background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.1)}
+.fc:hover{transform:translateX(4px)}
+.fc-a{font-size:18px;font-weight:800;color:var(--no)}
+.fc.paid .fc-a{color:var(--ok)}
+
+/* NOTICE */
+.np{background:rgba(234,179,8,.08);border-left:3px solid #eab308;padding:12px 16px;border-radius:0 12px 12px 0;margin-bottom:8px;font-size:13px;border:1px solid rgba(234,179,8,.15);color:var(--text4);animation:slideIn .3s both}
+.nt{background:rgba(59,130,246,.08);border-left:3px solid var(--info);padding:12px 16px;border-radius:0 12px 12px 0;margin-bottom:8px;font-size:13px;border:1px solid rgba(59,130,246,.15);color:var(--text4);animation:slideIn .3s both}
+.np-perm{background:rgba(239,68,68,.08);border-left:3px solid var(--no);border-color:rgba(239,68,68,.15);animation:pulse 3s infinite}
+
+/* MSG */
+.mi{background:rgba(6,182,212,.06);border-left:3px solid var(--p);padding:12px 16px;border-radius:0 12px 12px 0;margin-bottom:8px;transition:var(--t);font-size:13px;border:1px solid rgba(6,182,212,.1);color:var(--text4)}
+.mi:hover{transform:translateX(4px);background:rgba(6,182,212,.1)}
+
+/* PROFILE */
+.prof{text-align:center;margin-bottom:20px}
+.prof-av{width:88px;height:88px;background:linear-gradient(135deg,var(--p),var(--s));border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;animation:float 4s infinite;position:relative}
+.prof-av::after{content:'';position:absolute;inset:-6px;border-radius:28px;background:linear-gradient(135deg,var(--p),var(--s));opacity:.2;filter:blur(15px)}
+.prof-av i{font-size:38px;color:#fff}
+.prof h2{font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--text),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.prof p{color:var(--text3);font-size:13px;margin-top:2px}
+
+/* FORMULA */
+.formula-card{background:var(--card-bg);border-radius:14px;padding:16px;margin-bottom:10px;border:1px solid var(--card-border);transition:var(--t)}
+.formula-card:hover{border-color:rgba(6,182,212,.3);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.2)}
+.formula-card h4{font-size:14px;margin-bottom:5px;color:var(--p)}
+.formula-card .eq{font-size:18px;font-weight:700;font-family:'Times New Roman',serif;letter-spacing:1px;margin-bottom:4px;color:var(--text)}
+.formula-card small{color:var(--text3);font-size:11px}
+
+/* QUIZ */
+.quiz-q{background:var(--card-bg);border:1.5px solid var(--card-border);border-radius:14px;padding:18px;margin-bottom:14px;transition:var(--t);animation:fadeUp .4s both}
+.quiz-q.correct{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.08)}
+.quiz-q.wrong{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.08)}
+.quiz-q h4{font-size:15px;color:var(--text);margin-bottom:12px}
+.quiz-opt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.quiz-opt label{display:flex;align-items:center;gap:8px;padding:10px 14px;border:1.5px solid var(--card-border);border-radius:10px;cursor:pointer;transition:var(--t);font-size:13px;color:var(--text4)}
+.quiz-opt label:hover{border-color:var(--p);background:rgba(6,182,212,.08)}
+.quiz-opt input[type=radio]{accent-color:var(--p)}
+
+/* TIMER */
+.timer{font-size:28px;font-weight:800;text-align:center;font-family:monospace;padding:12px;background:var(--glass2);border-radius:12px;margin-bottom:16px;border:1px solid var(--card-border);color:var(--no)}
+
+/* PROGRESS */
+.prog{width:100%;height:6px;background:var(--glass2);border-radius:10px;overflow:hidden;margin:6px 0}
+.prog-bar{height:100%;border-radius:10px;transition:.5s ease;position:relative}
+.prog-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);background-size:200% 100%;animation:shimmer 2s infinite}
+
+/* LEADERBOARD */
+.lb-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;margin-bottom:6px;transition:var(--t);border:1px solid transparent;animation:slideIn .3s both}
+.lb-item:hover{background:var(--glass2);border-color:var(--card-border)}
+.lb-rank{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;flex-shrink:0}
+.lb-rank.r1{background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 0 15px rgba(245,158,11,.3);animation:pulse 2s infinite}
+.lb-rank.r2{background:linear-gradient(135deg,#94a3b8,#64748b)}
+.lb-rank.r3{background:linear-gradient(135deg,#92400e,#78350f)}
+.lb-rank.rn{background:var(--glass);color:var(--text2)}
+
+/* CONGRATS */
+.congrats-banner{background:linear-gradient(135deg,#fbbf24,#f59e0b,#eab308);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;animation:pulse 2s infinite,rainbow 5s linear infinite;position:relative;overflow:hidden}
+.congrats-banner::before{content:'🎉';position:absolute;top:5px;left:15px;font-size:30px;animation:float 2s infinite}
+.congrats-banner::after{content:'🏆';position:absolute;top:5px;right:15px;font-size:30px;animation:float 2s infinite reverse}
+.congrats-banner h3{color:#000;font-size:20px;margin-bottom:4px}
+.congrats-banner p{color:rgba(0,0,0,.7);font-size:13px}
+
+/* FAIL BANNER */
+.fail-banner{background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;animation:shake .5s;color:#fff}
+.fail-banner h3{font-size:18px;margin-bottom:4px}
+.fail-banner p{color:rgba(255,255,255,.8);font-size:13px}
+
+/* EXAM RESULT CARD */
+.exam-result{padding:14px;border-radius:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;transition:var(--t);animation:fadeUp .3s both;border:1px solid var(--card-border)}
+.exam-result.pass{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.3)}
+.exam-result.fail{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3)}
+.exam-result.perfect{background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(245,158,11,.1));border-color:rgba(251,191,36,.4);animation:fadeUp .3s both,glow 2s infinite}
+.exam-score{font-size:24px;font-weight:800}
+.exam-score.pass-score{color:var(--ok)}
+.exam-score.fail-score{color:var(--no)}
+.exam-score.perfect-score{color:#fbbf24;animation:pulse 1.5s infinite}
+
+/* MCQ */
+.mcq-add-item{background:var(--glass2);border:1px solid var(--card-border);border-radius:12px;padding:14px;margin-bottom:12px;animation:fadeUp .3s both}
+.mcq-add-item input,.mcq-add-item select{width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text);font-family:inherit;margin-bottom:6px}
+
+/* BOTTOM MENU */
+.bmenu{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);background:var(--bg2);backdrop-filter:blur(25px) saturate(1.3);display:flex;padding:8px 12px;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.3);z-index:1000;gap:3px;border:1px solid var(--card-border)}
+.bmi{text-align:center;color:var(--text3);cursor:pointer;padding:7px 12px;border-radius:14px;transition:var(--t);user-select:none}
+.bmi i{display:block;font-size:17px;margin-bottom:2px}
+.bmi span{font-size:9px;font-weight:600}
+.bmi.on{background:linear-gradient(135deg,var(--p2),var(--s2));color:#fff;transform:translateY(-4px);box-shadow:0 6px 20px rgba(6,182,212,.4)}
+
+/* MODAL */
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:16px}
+.modal.show{display:flex}
+.modal-box{background:var(--bg2);backdrop-filter:blur(30px);border:1px solid var(--card-border);border-radius:22px;padding:28px;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;animation:bounceIn .4s ease;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-hdr h3{font-size:18px;color:var(--text);display:flex;align-items:center;gap:8px}
+.modal-hdr h3 i{color:var(--p)}
+.modal-x{background:0;border:0;font-size:24px;cursor:pointer;color:var(--text3);transition:var(--t);line-height:1}
+.modal-x:hover{color:var(--no)}
+
+/* TOAST */
+.toast-box{position:fixed;top:12px;right:12px;z-index:9999;display:flex;flex-direction:column;gap:6px}
+.toast{padding:10px 16px;border-radius:12px;background:var(--bg2);backdrop-filter:blur(20px);box-shadow:0 4px 20px rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;animation:slideUp .3s;min-width:220px;border:1px solid var(--card-border);color:var(--text)}
+.toast.ok{border-left:3px solid var(--ok)}.toast.no{border-left:3px solid var(--no)}.toast.w{border-left:3px solid var(--warn)}.toast.i{border-left:3px solid var(--info)}
+
+/* THEME TOGGLE */
+.theme-toggle{width:50px;height:26px;border-radius:13px;background:linear-gradient(135deg,#1e293b,#334155);border:2px solid var(--card-border);cursor:pointer;position:relative;transition:var(--t)}
+.theme-toggle::after{content:'🌙';position:absolute;top:1px;left:2px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;transition:var(--t)}
+.light-mode .theme-toggle{background:linear-gradient(135deg,#60a5fa,#3b82f6)}
+.light-mode .theme-toggle::after{content:'☀️';left:26px}
+
+.flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mt{margin-top:12px}.mb{margin-bottom:12px}
+.hidden{display:none!important}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* Particles */
+.particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden}
+.particle{position:absolute;width:4px;height:4px;background:var(--p);border-radius:50%;opacity:.3;animation:float 8s infinite}
+
+/* Parent enhanced */
+.child-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:18px;margin-bottom:12px;transition:var(--t);animation:fadeUp .4s both}
+.child-card:hover{border-color:rgba(6,182,212,.3);transform:translateY(-2px)}
+.child-stat{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.child-stat .mini{background:var(--glass2);padding:6px 12px;border-radius:8px;font-size:11px;border:1px solid var(--card-border)}
+
+/* Attendance options like screenshot */
+.att-option{display:flex;gap:6px;align-items:center}
+.att-radio{display:none}
+.att-label{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:var(--t);border:1.5px solid var(--card-border);color:var(--text3)}
+.att-radio:checked+.att-label.present-l{background:rgba(16,185,129,.2);border-color:var(--ok);color:#34d399}
+.att-radio:checked+.att-label.late-l{background:rgba(245,158,11,.2);border-color:var(--warn);color:#fbbf24}
+.att-radio:checked+.att-label.absent-l{background:rgba(239,68,68,.2);border-color:var(--no);color:#f87171}
+
+@media(max-width:768px){
+.cnt{padding:14px;padding-bottom:90px}
+.sec{padding:18px;border-radius:16px}
+.stats{grid-template-columns:repeat(2,1fr);gap:10px}
+.bmenu{bottom:6px;padding:6px 8px;gap:2px}
+.bmi{padding:5px 8px}
+.bmi i{font-size:15px}
+.bmi span{font-size:8px}
+.grid2{grid-template-columns:1fr}
+.quiz-opt{grid-template-columns:1fr}
+.hdr{padding:10px 14px}
+.cal-grid{gap:2px}
+.cal-day{padding:6px 2px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="toast-box" id="toastBox"></div>
+
+<!-- LOGIN -->
+<div class="lp" id="pgLogin">
+<div class="lc">
+<div class="logo"><i class="fas fa-atom"></i></div>
+<h1>ন্যাপ ফিজিক্স কেয়ার</h1>
+<p class="sub">HSC পদার্থবিজ্ঞান কোচিং সেন্টার</p>
+<div class="clk" id="clkL"></div>
+<div style="display:flex;justify-content:center;margin-bottom:16px">
+<div class="theme-toggle" onclick="toggleTheme()" title="ডার্ক/লাইট মোড"></div>
+</div>
+<div class="tabs" id="ltabs">
+<button class="on" onclick="switchLT('s')">ছাত্র</button>
+<button onclick="switchLT('t')">শিক্ষক</button>
+<button onclick="switchLT('p')">অভিভাবক</button>
+</div>
+<div id="fS">
+<div class="fg"><label>রোল নাম্বার (৪ ডিজিট)</label><input id="iSR" placeholder="1001"></div>
+<div class="fg"><label>নাম</label><input id="iSN" placeholder="নাম লিখুন"></div>
+<button class="btn btn-p btn-full" onclick="loginS()"><i class="fas fa-sign-in-alt"></i> লগইন</button>
+</div>
+<div id="fT" class="hidden">
+<div class="fg"><label>শিক্ষক আইডি</label><input id="iTI" value="TCH001"></div>
+<div class="fg"><label>পাসওয়ার্ড</label><input type="password" id="iTP" value="teacher123"></div>
+<button class="btn btn-p btn-full" onclick="loginT()"><i class="fas fa-sign-in-alt"></i> লগইন</button>
+</div>
+<div id="fP" class="hidden">
+<div class="fg"><label>মোবাইল</label><input id="iPP" placeholder="01XXXXXXXXX"></div>
+<div class="fg"><label>পাসওয়ার্ড</label><input type="password" id="iPW" value="parent123"></div>
+<button class="btn btn-p btn-full" onclick="loginP()"><i class="fas fa-sign-in-alt"></i> লগইন</button>
+</div>
+</div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div class="dash" id="pgT">
+<div class="hdr">
+<div style="display:flex;align-items:center;gap:16px">
+<div class="hdr-t"><i class="fas fa-chalkboard-teacher"></i><span id="tName"></span></div>
+<div class="hdr-clk" id="clkT"></div>
+</div>
+<div class="hdr-acts">
+<div class="theme-toggle" onclick="toggleTheme()" title="মোড"></div>
+<button class="hdr-btn" onclick="saveAll()" title="সেভ"><i class="fas fa-save"></i></button>
+<button class="hdr-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+</div>
+</div>
+<div class="cnt">
+<div id="tS-home">
+<div class="stats" id="tStats"></div>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-layer-group"></i> ব্যাচ নির্বাচন</div>
+<div class="batches" id="tBatch"></div>
+<div class="flex mt">
+<button class="btn btn-p btn-sm" onclick="openModal('mAdd')"><i class="fas fa-user-plus"></i> নতুন ছাত্র</button>
+<button class="btn btn-ok btn-sm" onclick="goTab('teacher','att')"><i class="fas fa-clipboard-check"></i> হাজিরা</button>
+<button class="btn btn-w btn-sm" onclick="openModal('mCfg')"><i class="fas fa-cog"></i> সেটিংস</button>
+<button class="btn btn-i btn-sm" onclick="goTab('teacher','exam')"><i class="fas fa-file-alt"></i> পরীক্ষার মার্কস</button>
+<button class="btn btn-p btn-sm" onclick="goTab('teacher','mcqm')"><i class="fas fa-question-circle"></i> MCQ</button>
+</div>
+<div class="fg mt"><input id="srcStu" placeholder="🔍 ছাত্র খুঁজুন..." oninput="renderStuList()"></div>
+</div>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-users"></i> ছাত্র তালিকা — <span id="bLab"></span></div>
+<div class="tw"><table><thead><tr><th>রোল</th><th>নাম</th><th>GPA</th><th>আজ</th><th>উপস্থিতি</th><th>জরিমানা</th><th>অ্যাকশন</th></tr></thead><tbody id="tblStu"></tbody></table></div>
+</div>
+<div class="sec"><div class="sec-t"><i class="fas fa-calendar-alt"></i> ক্যালেন্ডার</div><div id="tCalendar"></div></div>
+</div>
+
+<!-- Teacher Attendance -->
+<div id="tS-att" hidden>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-calendar-check"></i> হাজিরা — <span id="attBL"></span></div>
+<div class="att-sum">
+<span>মোট: <b id="attT">0</b></span>
+<span style="color:var(--ok)">উপস্থিত: <b id="attP">0</b></span>
+<span style="color:var(--no)">অনুপস্থিত: <b id="attA">0</b></span>
+<span style="color:var(--warn)">দেরিতে: <b id="attL">0</b></span>
+</div>
+<div class="fg"><label>তারিখ</label><input type="date" id="attD" onchange="renderAtt()"></div>
+<div id="attLst"></div>
+<div class="flex mt">
+<button class="btn btn-ok btn-sm" onclick="saveAtt()"><i class="fas fa-save"></i> সংরক্ষণ</button>
+<button class="btn btn-p btn-xs" onclick="setAll('present')">সবাই উপস্থিত</button>
+<button class="btn btn-w btn-xs" onclick="setAll('late')">সবাই দেরিতে</button>
+<button class="btn btn-no btn-xs" onclick="setAll('absent')">সবাই অনুপস্থিত</button>
+</div>
+</div>
+</div>
+
+<!-- Teacher Exam -->
+<div id="tS-exam" hidden>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-file-alt"></i> পরীক্ষার মার্কস দিন (১০ মার্কস)</div>
+<div class="fg"><label>অধ্যায়/বিষয়</label><select id="exSub" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)"></select></div>
+<div class="fg"><label>তারিখ</label><input type="date" id="exDt"></div>
+<div class="fg"><label>মোট নম্বর</label><input type="number" id="exTot" value="10" style="padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text);width:100%"></div>
+<div id="exList"></div>
+<div class="flex mt">
+<button class="btn btn-ok btn-full" onclick="saveExam()"><i class="fas fa-save"></i> মার্কস সংরক্ষণ</button>
+</div>
+<hr style="border-color:var(--card-border);margin:20px 0">
+<div class="sec-t"><i class="fas fa-history"></i> পূর্বের পরীক্ষার ফলাফল</div>
+<div id="examHistory"></div>
+</div>
+</div>
+
+<!-- Teacher Fines -->
+<div id="tS-fines" hidden>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-coins"></i> জরিমানা</div>
+<div class="stats" id="fStats"></div>
+<div class="fg mt"><label>ছাত্র নির্বাচন</label><select id="fSel" onchange="renderStuFines()" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)"></select></div>
+<div id="sfList" class="mt"></div>
+<div class="flex mt">
+<input type="number" id="dAmt" placeholder="ছাড় ৳" style="flex:1;padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)">
+<button class="btn btn-ok btn-xs" onclick="applyDisc()"><i class="fas fa-percent"></i> ছাড়</button>
+<button class="btn btn-i btn-xs" onclick="markPaid()"><i class="fas fa-check-double"></i> পরিশোধিত</button>
+</div>
+<div class="sec-t mt"><i class="fas fa-list"></i> সবার জরিমানা</div>
+<div id="allFines"></div>
+</div>
+</div>
+
+<!-- Teacher Notices -->
+<div id="tS-notices" hidden>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-bullhorn"></i> নোটিশ</div>
+<div class="sec-t" style="font-size:14px;color:var(--no)"><i class="fas fa-lock"></i> স্থায়ী নোটিশ</div>
+<div id="permNotices"></div>
+<hr style="border-color:var(--card-border);margin:16px 0">
+<div class="fg"><label>সাময়িক নোটিশ</label><textarea id="tNotice" rows="2" placeholder="নোটিশ..." style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--card-border);font-family:inherit;font-size:13px;background:var(--glass2);color:var(--text)"></textarea></div>
+<div class="flex mb">
+<input type="date" id="nExp" style="padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)">
+<button class="btn btn-w btn-xs" onclick="addTNotice()"><i class="fas fa-plus"></i> যোগ</button>
+</div>
+<div id="nList"></div>
+</div>
+</div>
+
+<!-- Teacher Messages -->
+<div id="tS-msg" hidden>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-paper-plane"></i> বার্তা</div>
+<div class="fg"><label>ছাত্র</label><select id="mSel" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)"></select></div>
+<div class="fg"><label>বার্তা</label><textarea id="mTxt" rows="3" placeholder="বার্তা..." style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--card-border);font-family:inherit;font-size:13px;background:var(--glass2);color:var(--text)"></textarea></div>
+<button class="btn btn-p btn-full" onclick="sendMsg()"><i class="fas fa-paper-plane"></i> পাঠান</button>
+<div class="sec-t mt"><i class="fas fa-history"></i> পাঠানো বার্তা</div>
+<div id="sentMsgs"></div>
+</div>
+</div>
+
+<!-- Teacher MCQ -->
+<div id="tS-mcqm" hidden>
+<div class="sec">
+<div class="sec-t"><i class="fas fa-question-circle"></i> MCQ পরীক্ষা তৈরি</div>
+<div class="fg"><label>পরীক্ষার নাম</label><input id="mcqExName" placeholder="ভেক্টর MCQ টেস্ট ১"></div>
+<div class="fg"><label>সময় (মিনিট)</label><input type="number" id="mcqTime" value="10"></div>
+<div class="fg"><label>ব্যাচ</label><select id="mcqBatch" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)"></select></div>
+<div id="mcqQuestions"></div>
+<button class="btn btn-i btn-sm mt" onclick="addMCQQ()"><i class="fas fa-plus"></i> প্রশ্ন যোগ</button>
+<button class="btn btn-ok btn-full mt" onclick="publishMCQ()"><i class="fas fa-paper-plane"></i> প্রকাশ</button>
+<hr style="border-color:var(--card-border);margin:20px 0">
+<div class="sec-t"><i class="fas fa-list"></i> প্রকাশিত MCQ</div>
+<div id="mcqExamList"></div>
+<div class="sec-t mt"><i class="fas fa-chart-bar"></i> MCQ ফলাফল</div>
+<div id="mcqResults"></div>
+</div>
+</div>
+</div>
+
+<div class="bmenu">
+<div class="bmi on" onclick="goTab('teacher','home',this)"><i class="fas fa-home"></i><span>হোম</span></div>
+<div class="bmi" onclick="goTab('teacher','att',this)"><i class="fas fa-clipboard-check"></i><span>হাজিরা</span></div>
+<div class="bmi" onclick="goTab('teacher','exam',this)"><i class="fas fa-file-alt"></i><span>পরীক্ষা</span></div>
+<div class="bmi" onclick="goTab('teacher','fines',this)"><i class="fas fa-coins"></i><span>জরিমানা</span></div>
+<div class="bmi" onclick="goTab('teacher','notices',this)"><i class="fas fa-bullhorn"></i><span>নোটিশ</span></div>
+<div class="bmi" onclick="goTab('teacher','msg',this)"><i class="fas fa-envelope"></i><span>বার্তা</span></div>
+<div class="bmi" onclick="goTab('teacher','mcqm',this)"><i class="fas fa-question-circle"></i><span>MCQ</span></div>
+</div>
+</div>
+
+<!-- STUDENT DASHBOARD -->
+<div class="dash" id="pgS">
+<div class="hdr">
+<div style="display:flex;align-items:center;gap:16px">
+<div class="hdr-t"><i class="fas fa-user-graduate"></i><span id="sNameH"></span></div>
+<div class="hdr-clk" id="clkS"></div>
+</div>
+<div class="hdr-acts">
+<div class="theme-toggle" onclick="toggleTheme()"></div>
+<button class="hdr-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+</div>
+</div>
+<div class="cnt">
+<div id="sS-home">
+<div id="sCongrats"></div>
+<div class="sec prof">
+<div class="prof-av"><i class="fas fa-user-astronaut"></i></div>
+<h2 id="sFN"></h2>
+<p id="sI1"></p><p id="sI2"></p>
+</div>
+<div class="stats" id="sStats"></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-bullhorn"></i> নোটিশ</div><div id="sNotices"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-pencil-alt"></i> পরীক্ষার ফলাফল</div><div id="sExams"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-coins"></i> জরিমানা</div><div id="sFines"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-envelope"></i> শিক্ষকের বার্তা</div><div id="sMsgs"></div></div>
+</div>
+<div id="sS-att" hidden><div class="sec"><div class="sec-t"><i class="fas fa-calendar-check"></i> আমার হাজিরা</div><div class="prog mb"><div class="prog-bar" id="sAttProg" style="width:0;background:linear-gradient(90deg,var(--ok),var(--p))"></div></div><p id="sAttPct" style="text-align:center;font-size:13px;color:var(--text2)"></p><div id="sCalendar" class="mt"></div></div></div>
+<div id="sS-formula" hidden><div class="sec"><div class="sec-t"><i class="fas fa-atom"></i> HSC ফিজিক্স সূত্রাবলী</div><div id="formulaList"></div></div></div>
+<div id="sS-mcq" hidden><div class="sec"><div class="sec-t"><i class="fas fa-question-circle"></i> MCQ পরীক্ষা</div><div id="mcqAvailable"></div><div class="timer hidden" id="mcqTimer">--:--</div><div id="mcqTestArea"></div><div id="mcqTestBtns"></div></div></div>
+<div id="sS-lb" hidden><div class="sec"><div class="sec-t"><i class="fas fa-trophy"></i> লিডারবোর্ড</div><div id="lbList"></div></div></div>
+</div>
+<div class="bmenu">
+<div class="bmi on" onclick="goTab('student','home',this)"><i class="fas fa-home"></i><span>হোম</span></div>
+<div class="bmi" onclick="goTab('student','att',this)"><i class="fas fa-calendar-alt"></i><span>ক্যালেন্ডার</span></div>
+<div class="bmi" onclick="goTab('student','formula',this)"><i class="fas fa-atom"></i><span>সূত্র</span></div>
+<div class="bmi" onclick="goTab('student','mcq',this)"><i class="fas fa-question-circle"></i><span>MCQ</span></div>
+<div class="bmi" onclick="goTab('student','lb',this)"><i class="fas fa-trophy"></i><span>র‍্যাংক</span></div>
+</div>
+</div>
+
+<!-- PARENT DASHBOARD -->
+<div class="dash" id="pgP">
+<div class="hdr">
+<div style="display:flex;align-items:center;gap:16px">
+<div class="hdr-t"><i class="fas fa-users"></i><span id="pNameH"></span></div>
+<div class="hdr-clk" id="clkP"></div>
+</div>
+<div class="hdr-acts">
+<div class="theme-toggle" onclick="toggleTheme()"></div>
+<button class="hdr-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+</div>
+</div>
+<div class="cnt">
+<div id="pS-home">
+<div class="sec prof"><div class="prof-av"><i class="fas fa-user-shield"></i></div><h2 id="pWel"></h2><p id="pDt"></p></div>
+<div class="stats" id="pStats"></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-child"></i> সন্তানের তথ্য</div><div id="pChild"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-pencil-alt"></i> পরীক্ষার ফলাফল</div><div id="pExams"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-calendar-check"></i> হাজিরা ক্যালেন্ডার</div><div id="pCalendar"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-coins"></i> জরিমানা</div><div id="pFines"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-envelope"></i> শিক্ষকের বার্তা</div><div id="pMsgs"></div></div>
+<div class="sec"><div class="sec-t"><i class="fas fa-bullhorn"></i> নোটিশ</div><div id="pNotices"></div></div>
+</div>
+<div id="pS-report" hidden>
+<div class="sec"><div class="sec-t"><i class="fas fa-chart-line"></i> সন্তানের রিপোর্ট কার্ড</div><div id="pReport"></div></div>
+</div>
+<div id="pS-contact" hidden>
+<div class="sec"><div class="sec-t"><i class="fas fa-phone"></i> শিক্ষকের সাথে যোগাযোগ</div>
+<div class="fg"><label>বার্তা পাঠান</label><textarea id="pMsgTxt" rows="3" placeholder="আপনার বার্তা..." style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--card-border);font-family:inherit;font-size:13px;background:var(--glass2);color:var(--text)"></textarea></div>
+<button class="btn btn-p btn-full" onclick="parentSendMsg()"><i class="fas fa-paper-plane"></i> পাঠান</button>
+<div class="sec-t mt"><i class="fas fa-history"></i> পাঠানো বার্তা</div>
+<div id="pSentMsgs"></div>
+</div>
+</div>
+</div>
+<div class="bmenu">
+<div class="bmi on" onclick="goTab('parent','home',this)"><i class="fas fa-home"></i><span>হোম</span></div>
+<div class="bmi" onclick="goTab('parent','report',this)"><i class="fas fa-chart-line"></i><span>রিপোর্ট</span></div>
+<div class="bmi" onclick="goTab('parent','contact',this)"><i class="fas fa-phone"></i><span>যোগাযোগ</span></div>
+</div>
+</div>
+
+<!-- MODALS -->
+<div class="modal" id="mAdd"><div class="modal-box"><div class="modal-hdr"><h3><i class="fas fa-user-plus"></i> নতুন ছাত্র ভর্তি</h3><button class="modal-x" onclick="closeModal('mAdd')">&times;</button></div>
+<div class="fg"><label>ছাত্রের নাম *</label><input id="nN" placeholder="পূর্ণ নাম"></div>
+<div class="fg"><label>রোল নাম্বার (৪ ডিজিট) *</label><input id="nR" placeholder="1001" maxlength="4"></div>
+<div class="fg"><label>মোবাইল</label><input id="nPh" placeholder="01XXXXXXXXX"></div>
+<div class="fg"><label>হোয়াটসঅ্যাপ</label><input id="nWA" placeholder="01XXXXXXXXX"></div>
+<div class="fg"><label>GPA</label><input id="nGPA" placeholder="5.00" type="number" step="0.01" max="5" min="0"></div>
+<div class="fg"><label>ব্যাচ</label><select id="nB" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)"><option>সকাল ৯টা</option><option>সকাল ১০টা</option><option>সকাল ১১টা</option><option>বিকাল ৪টা</option></select></div>
+<div class="fg"><label>সেকশন</label><select id="nSec" style="width:100%;padding:10px;border-radius:12px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)"><option>A</option><option>B</option></select></div>
+<div class="fg"><label>বাবার নাম</label><input id="nPN" placeholder="বাবার নাম"></div>
+<div class="fg"><label>বাবার মোবাইল</label><input id="nPPh" placeholder="01XXXXXXXXX"></div>
+<div class="fg"><label>মায়ের নাম</label><input id="nMN" placeholder="মায়ের নাম"></div>
+<div class="fg"><label>মায়ের মোবাইল</label><input id="nMPh" placeholder="01XXXXXXXXX"></div>
+<button class="btn btn-ok btn-full" onclick="addStu()"><i class="fas fa-check"></i> ভর্তি করুন</button></div></div>
+
+<div class="modal" id="mCfg"><div class="modal-box"><div class="modal-hdr"><h3><i class="fas fa-cog"></i> সেটিংস</h3><button class="modal-x" onclick="closeModal('mCfg')">&times;</button></div>
+<div class="fg"><label>সাধারণ অনুপস্থিতি জরিমানা (৳)</label><input type="number" id="cFA"></div>
+<div class="fg"><label>শুক্রবার অনুপস্থিতি জরিমানা (৳)</label><input type="number" id="cFF"></div>
+<div class="fg"><label>পরীক্ষা না দিলে জরিমানা (৳)</label><input type="number" id="cFEA"></div>
+<div class="fg"><label>পরীক্ষায় ফেল জরিমানা (৳)</label><input type="number" id="cFEF"></div>
+<div class="fg"><label>পাস মার্কস (১০ এর মধ্যে)</label><input type="number" id="cPM"></div>
+<button class="btn btn-ok btn-full" onclick="saveCfg()"><i class="fas fa-save"></i> সংরক্ষণ</button></div></div>
+
+<script>
+const BT=['সকাল ৯টা','সকাল ১০টা','সকাল ১১টা','বিকাল ৪টা'];
+const DN=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+const CHAPTERS=[
+{n:1,t:'ভৌত জগৎ ও পরিমাপ',p:1,f:['শতাংশ ত্রুটি = (Δx/x)×100','আপেক্ষিক ত্রুটি = Δx/x']},
+{n:2,t:'ভেক্টর',p:1,f:['R = √(A²+B²+2ABcosθ)','tanα = Bsinθ/(A+Bcosθ)','A⃗·B⃗ = ABcosθ','A⃗×B⃗ = ABsinθ n̂']},
+{n:3,t:'গতিবিদ্যা',p:1,f:['v = u + at','s = ut + ½at²','v² = u² + 2as','sₙ = u + ½a(2n-1)']},
+{n:4,t:'নিউটনের গতিসূত্র',p:1,f:['F = ma','p = mv','J = FΔt = Δp','F = dp/dt']},
+{n:5,t:'কাজ, শক্তি ও ক্ষমতা',p:1,f:['W = Fscosθ','KE = ½mv²','PE = mgh','P = W/t = Fv']},
+{n:6,t:'মহাকর্ষ',p:1,f:['F = Gm₁m₂/r²','g = GM/R²','vₑ = √(2gR)','T² = 4π²r³/GM']},
+{n:7,t:'পদার্থের গাঠনিক ধর্ম',p:1,f:['Y = (F/A)/(ΔL/L)','পৃষ্ঠটান T = F/L']},
+{n:8,t:'পর্যাবৃত্ত গতি',p:1,f:['x = Asin(ωt+φ)','T = 2π√(l/g)','vₘₐₓ = Aω']},
+{n:9,t:'তরঙ্গ',p:1,f:['v = fλ','বিট = |f₁-f₂|','ডপলার: f\'=f(v±v₀)/(v∓vₛ)']},
+{n:10,t:'আদর্শ গ্যাস',p:1,f:['PV = nRT','vᵣₘₛ = √(3RT/M)']},
+{n:11,t:'তাপগতিবিদ্যা',p:2,f:['ΔQ = ΔU + ΔW','η = 1-T₂/T₁']},
+{n:12,t:'স্থির তড়িৎ',p:2,f:['F = kq₁q₂/r²','V = kq/r','C = Q/V','U = ½CV²']},
+{n:13,t:'চল তড়িৎ',p:2,f:['V = IR','P = VI = I²R','ε = V + Ir']},
+{n:14,t:'চুম্বক ক্রিয়া',p:2,f:['F = qvBsinθ','F = BILsinθ','B = μ₀nI']},
+{n:15,t:'তড়িৎ চুম্বকীয় আবেশ',p:2,f:['ε = -dΦ/dt','Φ = BAcosθ','ε = BLv']},
+{n:16,t:'জ্যামিতিক আলোকবিজ্ঞান',p:2,f:['n₁sinθ₁ = n₂sinθ₂','1/f = 1/v - 1/u']},
+{n:17,t:'ভৌত আলোকবিজ্ঞান',p:2,f:['dsinθ = nλ','x = nλD/d']},
+{n:18,t:'আধুনিক পদার্থবিজ্ঞান',p:2,f:['E = hf','E = mc²','λ = h/p']},
+{n:19,t:'পরমাণু ও নিউক্লিয়ার',p:2,f:['Eₙ = -13.6Z²/n² eV','t½ = 0.693/λ']},
+{n:20,t:'সেমিকন্ডাক্টর',p:2,f:['β = Ic/Ib','β = α/(1-α)']}
+];
+
+let D={
+settings:{fineAbsent:50,fineFriday:100,fineExamAbs:200,fineExamFail:100,passMark:5},
+permanentNotices:[
+{text:'📓 ৩০০ পৃষ্ঠার একটি খাতা কিনতে হবে'},
+{text:'🖊️ তিনটি কালি ব্যবহার করতে হবে (কালো, সবুজ, লাল)'},
+{text:'❌ একদিন না আসলে ৫০ টাকা জরিমানা'},
+{text:'🕌 শুক্রবার না আসলে ১০০ টাকা জরিমানা'},
+{text:'📝 পরীক্ষা না দিলে ২০০ টাকা জরিমানা'},
+{text:'📉 পরীক্ষায় ফেল করলে ১০০ টাকা জরিমানা'},
+{text:'🎉 পরীক্ষায় পাস করলে খাওয়ানো হবে!'}
+],
+tempNotices:[],students:[],
+teachers:[{id:'TCH001',name:'তানভীর আহমেদ',pass:'teacher123'}],
+parents:[],messages:[],parentMessages:[],mcqExams:[],mcqResults:[]
+};
+
+let U=null,cB='সকাল ৯টা',activeMCQ=null,mcqInterval=null,mcqQCount=0,isDark=true;
+
+function saveAll(){localStorage.setItem('napPC4',JSON.stringify(D));localStorage.setItem('napTheme',isDark?'dark':'light');toast('সেভ হয়েছে ✅','ok')}
+function loadAll(){const s=localStorage.getItem('napPC4');if(s)try{D={...D,...JSON.parse(s)};if(!D.parentMessages)D.parentMessages=[];if(!D.mcqExams)D.mcqExams=[];if(!D.mcqResults)D.mcqResults=[]}catch(e){}const th=localStorage.getItem('napTheme');if(th==='light'){isDark=false;document.documentElement.classList.add('light-mode')}}
+loadAll();
+
+function toggleTheme(){isDark=!isDark;document.documentElement.classList.toggle('light-mode',!isDark);localStorage.setItem('napTheme',isDark?'dark':'light');toast(isDark?'ডার্ক মোড 🌙':'লাইট মোড ☀️','i')}
+
+function td(){return new Date().toISOString().split('T')[0]}
+function fmt(d){const x=new Date(d);return x.getDate().toString().padStart(2,'0')+'/'+(x.getMonth()+1).toString().padStart(2,'0')+'/'+x.getFullYear()}
+function dn(d){return DN[new Date(d).getDay()]}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).substr(2,5)}
+
+function tick(){const t=new Date().toLocaleTimeString('bn-BD',{hour:'2-digit',minute:'2-digit',second:'2-digit'});['clkL','clkT','clkS','clkP'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=t});const pd=document.getElementById('pDt');if(pd)pd.textContent=new Date().toLocaleDateString('bn-BD',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+setInterval(tick,1000);tick();
+
+(function(){const c=document.getElementById('particles');for(let i=0;i<15;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=Math.random()*100+'%';p.style.animationDelay=Math.random()*8+'s';p.style.animationDuration=(6+Math.random()*6)+'s';p.style.width=p.style.height=(2+Math.random()*3)+'px';c.appendChild(p)}})();
+
+function toast(m,ty='ok'){const b=document.getElementById('toastBox'),ic={ok:'check-circle',no:'times-circle',w:'exclamation-triangle',i:'info-circle'},e=document.createElement('div');e.className='toast '+ty;e.innerHTML=`<i class="fas fa-${ic[ty]}"></i> ${m}`;b.appendChild(e);setTimeout(()=>{e.style.opacity='0';e.style.transform='translateX(100%)';e.style.transition='.3s';setTimeout(()=>e.remove(),300)},2500)}
+
+function openModal(id){document.getElementById(id).classList.add('show');if(id==='mCfg'){const c=D.settings;document.getElementById('cFA').value=c.fineAbsent;document.getElementById('cFF').value=c.fineFriday;document.getElementById('cFEA').value=c.fineExamAbs;document.getElementById('cFEF').value=c.fineExamFail;document.getElementById('cPM').value=c.passMark}}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show')}));
+
+function switchLT(t){const m={s:0,t:1,p:2};document.querySelectorAll('#ltabs button').forEach((b,i)=>b.classList.toggle('on',i===m[t]));document.getElementById('fS').classList.toggle('hidden',t!=='s');document.getElementById('fT').classList.toggle('hidden',t!=='t');document.getElementById('fP').classList.toggle('hidden',t!=='p')}
+function showPg(id){['pgLogin','pgT','pgS','pgP'].forEach(p=>{document.getElementById(p).style.display='none';document.getElementById(p).classList.remove('show')});const e=document.getElementById(id);e.style.display=id==='pgLogin'?'flex':'block';e.classList.add('show')}
+
+function loginS(){const r=document.getElementById('iSR').value.trim(),n=document.getElementById('iSN').value.trim();const s=D.students.find(x=>x.roll===r&&x.name===n);if(!s){toast('ভুল রোল/নাম!','no');return}U={...s,type:'student'};showPg('pgS');renderSDash();toast('স্বাগতম '+s.name+'!','ok')}
+function loginT(){const i=document.getElementById('iTI').value.trim(),p=document.getElementById('iTP').value;const t=D.teachers.find(x=>x.id===i&&x.pass===p);if(!t){toast('ভুল!','no');return}U={...t,type:'teacher'};showPg('pgT');document.getElementById('tName').textContent=t.name;renderTDash();toast('স্বাগতম '+t.name+'!','ok')}
+function loginP(){const ph=document.getElementById('iPP').value.trim(),pw=document.getElementById('iPW').value;const p=D.parents.find(x=>x.phone===ph&&x.pass===pw);if(!p){toast('ভুল!','no');return}U={...p,type:'parent'};showPg('pgP');document.getElementById('pNameH').textContent=p.name;document.getElementById('pWel').textContent='স্বাগতম '+p.name+'!';renderPDash();toast('স্বাগতম!','ok')}
+function logout(){U=null;showPg('pgLogin');if(mcqInterval)clearInterval(mcqInterval);activeMCQ=null;toast('লগআউট','i')}
+
+function goTab(role,tab,btn){
+const pf=role==='teacher'?'tS':role==='student'?'sS':'pS',pg=role==='teacher'?'pgT':role==='student'?'pgS':'pgP';
+document.querySelectorAll(`#${pg} [id^="${pf}-"]`).forEach(s=>s.hidden=true);
+const tgt=document.getElementById(`${pf}-${tab}`);if(tgt)tgt.hidden=false;
+const menu=document.querySelector(`#${pg} .bmenu`);if(menu)menu.querySelectorAll('.bmi').forEach(b=>b.classList.remove('on'));
+if(btn)btn.classList.add('on');
+if(role==='teacher'){if(tab==='home')renderTDash();if(tab==='att'){document.getElementById('attD').value=td();document.getElementById('attBL').textContent=cB;renderAtt()}if(tab==='exam')renderExamPage();if(tab==='fines')renderFP();if(tab==='notices')renderNP();if(tab==='msg')renderMP();if(tab==='mcqm')renderMCQManager()}
+if(role==='student'){renderSDash();if(tab==='formula')renderFormulas();if(tab==='mcq')renderMCQStudent();if(tab==='lb')renderLB();if(tab==='att')renderStuCalendar()}
+if(role==='parent')renderPDash();
+}
+
+function buildCalendar(attData,containerId){
+const now=new Date(),yr=now.getFullYear(),mo=now.getMonth();
+const firstDay=new Date(yr,mo,1).getDay(),daysInMonth=new Date(yr,mo+1,0).getDate(),todayDate=now.getDate();
+const monthName=now.toLocaleDateString('bn-BD',{month:'long',year:'numeric'});
+const headers=['রবি','সোম','মঙ্গল','বুধ','বৃহ','শুক্র','শনি'];
+let h=`<div style="text-align:center;font-weight:700;margin-bottom:10px;color:var(--p);font-size:15px">${monthName}</div><div class="cal-grid">`;
+headers.forEach(d=>h+=`<div class="cal-hdr">${d}</div>`);
+for(let i=0;i<firstDay;i++)h+='<div class="cal-day empty">·</div>';
+for(let d=1;d<=daysInMonth;d++){const ds=`${yr}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const att=attData.find(a=>a.d===ds);let cls='cal-day';if(att)cls+=` ${att.s}`;if(d===todayDate)cls+=' today';h+=`<div class="${cls}" title="${att?att.s:'—'}">${d}</div>`}
+h+='</div>';const el=document.getElementById(containerId);if(el)el.innerHTML=h}
+
+// ===== TEACHER =====
+function renderTDash(){
+const t=td(),all=D.students,bst=all.filter(s=>s.batch===cB);
+const pr=bst.filter(s=>s.att&&s.att.some(a=>a.d===t&&(a.s==='present'||a.s==='late'))).length;
+let pend=0;all.forEach(s=>(s.fines||[]).forEach(f=>{if(!f.paid)pend+=f.amt}));
+document.getElementById('tStats').innerHTML=`
+<div class="sc"><div class="sc-i" style="background:linear-gradient(135deg,var(--p),var(--s))"><i class="fas fa-users"></i></div><div><div class="sc-v">${all.length}</div><div class="sc-l">মোট ছাত্র</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--ok)"><i class="fas fa-user-check"></i></div><div><div class="sc-v">${pr}</div><div class="sc-l">আজ উপস্থিত</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--no)"><i class="fas fa-user-times"></i></div><div><div class="sc-v">${bst.length-pr}</div><div class="sc-l">অনুপস্থিত</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--warn)"><i class="fas fa-coins"></i></div><div><div class="sc-v">৳${pend}</div><div class="sc-l">বকেয়া জরিমানা</div></div></div>`;
+document.getElementById('tBatch').innerHTML=BT.map(b=>`<button class="bb${b===cB?' on':''}" onclick="selB('${b}',this)">${b} (${D.students.filter(s=>s.batch===b).length})</button>`).join('');
+document.getElementById('bLab').textContent=cB;renderStuList();
+const batchAtt=[];D.students.filter(s=>s.batch===cB).forEach(s=>(s.att||[]).forEach(a=>{if(!batchAtt.find(x=>x.d===a.d))batchAtt.push(a)}));
+buildCalendar(batchAtt,'tCalendar')}
+function selB(b,el){cB=b;document.querySelectorAll('.bb').forEach(x=>x.classList.remove('on'));el.classList.add('on');renderTDash()}
+
+function renderStuList(){
+const q=(document.getElementById('srcStu')?.value||'').toLowerCase(),t=td();
+const ls=D.students.filter(s=>s.batch===cB&&(s.name.toLowerCase().includes(q)||s.roll.includes(q)));
+document.getElementById('tblStu').innerHTML=ls.map(s=>{
+const a=(s.att||[]).find(x=>x.d===t),st=a?(a.s==='present'?'উপস্থিত':a.s==='late'?'দেরিতে':'অনুপস্থিত'):'—';
+const sc=a?(a.s==='present'?'badge-ok':a.s==='late'?'badge-w':'badge-no'):'badge-g';
+const tf=(s.fines||[]).filter(f=>!f.paid).reduce((x,f)=>x+f.amt,0);
+const total=(s.att||[]).length,pres=(s.att||[]).filter(x=>x.s==='present'||x.s==='late').length,pct=total?Math.round(pres/total*100):0;
+return`<tr><td><b>${s.roll}</b></td><td>${s.name}</td><td>${s.gpa||'—'}</td>
+<td><span class="badge ${sc}">${st}</span></td>
+<td><div class="prog"><div class="prog-bar" style="width:${pct}%;background:${pct>=75?'var(--ok)':pct>=50?'var(--warn)':'var(--no)'}"></div></div><small style="color:var(--text3)">${pct}%</small></td>
+<td style="color:var(--no)">৳${tf}</td>
+<td><button class="btn btn-w btn-xs" onclick="qFine('${s.id}')"><i class="fas fa-coins"></i></button> <button class="btn btn-no btn-xs" onclick="delStu('${s.id}')"><i class="fas fa-trash"></i></button></td></tr>`}).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--text3)">কোন ছাত্র নেই</td></tr>'}
+
+function addStu(){
+const n=document.getElementById('nN').value.trim(),r=document.getElementById('nR').value.trim();
+if(!n||!r){toast('নাম ও রোল দিন','w');return}
+if(r.length!==4||isNaN(r)){toast('রোল ৪ ডিজিট হতে হবে','w');return}
+if(D.students.find(s=>s.roll===r)){toast('এই রোল আছে!','no');return}
+const s={id:'S'+uid(),roll:r,name:n,phone:document.getElementById('nPh').value.trim(),whatsapp:document.getElementById('nWA').value.trim(),gpa:document.getElementById('nGPA').value||'',batch:document.getElementById('nB').value,sec:document.getElementById('nSec').value,att:[],fines:[],exams:[],parName:document.getElementById('nPN').value.trim(),parPhone:document.getElementById('nPPh').value.trim(),momName:document.getElementById('nMN').value.trim(),momPhone:document.getElementById('nMPh').value.trim()};
+D.students.push(s);
+if(s.parPhone){const ep=D.parents.find(p=>p.phone===s.parPhone);if(ep){if(!ep.children.includes(s.id))ep.children.push(s.id)}else D.parents.push({id:'P'+uid(),name:s.parName||'অভিভাবক',phone:s.parPhone,children:[s.id],pass:'parent123'})}
+closeModal('mAdd');['nN','nR','nPh','nWA','nGPA','nPN','nPPh','nMN','nMPh'].forEach(id=>document.getElementById(id).value='');
+saveAll();renderTDash();toast(n+' ভর্তি ✅','ok')}
+function delStu(id){if(!confirm('মুছবেন?'))return;D.students=D.students.filter(s=>s.id!==id);saveAll();renderTDash()}
+function qFine(id){const a=prompt('জরিমানা ৳:','50');if(!a)return;const r=prompt('কারণ:','অনুপস্থিতি');const s=D.students.find(x=>x.id===id);if(s){if(!s.fines)s.fines=[];s.fines.push({id:'F'+uid(),d:td(),amt:+a,orig:+a,reason:r||'অনুপস্থিতি',paid:false,disc:0});saveAll();renderTDash();toast('জরিমানা যোগ','ok')}}
+
+// ATTENDANCE
+function renderAtt(){
+const d=document.getElementById('attD').value||td(),ls=D.students.filter(s=>s.batch===cB);
+document.getElementById('attBL').textContent=cB;document.getElementById('attT').textContent=ls.length;
+let h=`<div style="background:linear-gradient(135deg,rgba(6,182,212,.15),rgba(139,92,246,.15));padding:10px 16px;border-radius:12px;margin-bottom:12px;font-weight:600;font-size:13px;border:1px solid var(--card-border)"><i class="fas fa-calendar"></i> ${fmt(d)} — ${dn(d)}</div>`;
+ls.forEach((s,i)=>{const a=(s.att||[]).find(x=>x.d===d),v=a?a.s:'present';
+h+=`<div class="ar" style="animation-delay:${i*0.05}s"><div><b style="color:var(--text)">${s.name}</b> <small style="color:var(--text3)">(${s.roll})</small></div>
+<div class="att-option">
+<input type="radio" class="att-radio" name="at_${s.id}" id="atp_${s.id}" value="present" ${v==='present'?'checked':''} onchange="updAC()"><label for="atp_${s.id}" class="att-label present-l">✅ উপস্থিত</label>
+<input type="radio" class="att-radio" name="at_${s.id}" id="atl_${s.id}" value="late" ${v==='late'?'checked':''} onchange="updAC()"><label for="atl_${s.id}" class="att-label late-l">⏰ দেরি</label>
+<input type="radio" class="att-radio" name="at_${s.id}" id="ata_${s.id}" value="absent" ${v==='absent'?'checked':''} onchange="updAC()"><label for="ata_${s.id}" class="att-label absent-l">❌ অনুপস্থিত</label>
+</div></div>`});
+document.getElementById('attLst').innerHTML=h;updAC()}
+function updAC(){let p=0,a=0,l=0;D.students.filter(s=>s.batch===cB).forEach(s=>{const r=document.querySelector(`input[name="at_${s.id}"]:checked`);if(r){if(r.value==='present')p++;else if(r.value==='absent')a++;else l++}});document.getElementById('attP').textContent=p;document.getElementById('attA').textContent=a;document.getElementById('attL').textContent=l}
+function setAll(v){D.students.filter(s=>s.batch===cB).forEach(s=>{const r=document.getElementById(v==='present'?'atp_'+s.id:v==='late'?'atl_'+s.id:'ata_'+s.id);if(r)r.checked=true});updAC()}
+
+function saveAtt(){
+const d=document.getElementById('attD').value||td(),dy=dn(d);
+D.students.filter(s=>s.batch===cB).forEach(s=>{
+if(!s.att)s.att=[];if(!s.fines)s.fines=[];
+const r=document.querySelector(`input[name="at_${s.id}"]:checked`);if(!r)return;const v=r.value;
+s.att=s.att.filter(a=>a.d!==d);s.att.push({d,s:v});
+if(v==='absent'){if(!s.fines.some(f=>f.d===d&&f.reason.includes('অনুপস্থিতি'))){
+const amt=dy==='শুক্রবার'?D.settings.fineFriday:D.settings.fineAbsent;
+s.fines.push({id:'F'+uid(),d,amt,orig:amt,reason:`অনুপস্থিতি (${dy})`,paid:false,disc:0})}}
+else{s.fines=s.fines.filter(f=>!(f.d===d&&f.reason.includes('অনুপস্থিতি')&&!f.paid))}
+});saveAll();renderAtt();renderTDash();toast('হাজিরা সেভ ✅','ok')}
+
+// EXAM
+function renderExamPage(){
+document.getElementById('exDt').value=td();
+document.getElementById('exSub').innerHTML=CHAPTERS.map(c=>`<option>${c.t}</option>`).join('');
+const ls=D.students.filter(s=>s.batch===cB);
+document.getElementById('exList').innerHTML=ls.map(s=>`<div class="ar"><div><b style="color:var(--text)">${s.name}</b> <small style="color:var(--text3)">(${s.roll})</small></div><input type="number" id="ex_${s.id}" placeholder="নম্বর (০-১০)" min="0" max="10" style="width:100px;padding:8px;border-radius:10px;border:1px solid var(--card-border);font-size:13px;background:var(--glass2);color:var(--text)"></div>`).join('');
+// History
+let h='';D.students.filter(s=>s.batch===cB).forEach(s=>{(s.exams||[]).slice(-3).reverse().forEach(e=>{
+const pct=Math.round(e.m/e.t*100),isPerfect=e.m===e.t,isFail=e.m<D.settings.passMark;
+h+=`<div class="exam-result ${isPerfect?'perfect':isFail?'fail':'pass'}"><div><b>${s.name}</b> — ${e.sub}<br><small style="color:var(--text3)">${fmt(e.d)}</small></div><div class="exam-score ${isPerfect?'perfect-score':isFail?'fail-score':'pass-score'}">${e.m}/${e.t}${isPerfect?' 🏆':isFail?' ❌':' ✅'}</div></div>`})});
+document.getElementById('examHistory').innerHTML=h||'<p style="color:var(--text3)">নেই</p>'}
+
+function saveExam(){
+const sub=document.getElementById('exSub').value,tot=+document.getElementById('exTot').value||10,dt=document.getElementById('exDt').value||td();let cnt=0;
+D.students.filter(s=>s.batch===cB).forEach(s=>{
+if(!s.exams)s.exams=[];if(!s.fines)s.fines=[];
+const inp=document.getElementById('ex_'+s.id);if(!inp||inp.value==='')return;const m=+inp.value;
+s.exams.push({d:dt,sub,m,t:tot});cnt++;
+if(m<D.settings.passMark&&m>0)s.fines.push({id:'F'+uid(),d:dt,amt:D.settings.fineExamFail,orig:D.settings.fineExamFail,reason:`পরীক্ষায় ফেল (${sub}: ${m}/${tot})`,paid:false,disc:0});
+if(m===0)s.fines.push({id:'F'+uid(),d:dt,amt:D.settings.fineExamAbs,orig:D.settings.fineExamAbs,reason:`পরীক্ষা অনুপস্থিতি (${sub})`,paid:false,disc:0});
+});if(!cnt){toast('নম্বর দিন','w');return}saveAll();renderExamPage();renderTDash();toast(`${cnt} জনের মার্কস সেভ ✅`,'ok')}
+
+// FINES
+function renderFP(){
+let pd=0,pn=0,dc=0;D.students.forEach(s=>(s.fines||[]).forEach(f=>{if(f.paid)pd+=f.amt;else pn+=f.amt;dc+=f.disc||0}));
+document.getElementById('fStats').innerHTML=`<div class="sc"><div class="sc-i" style="background:var(--ok)"><i class="fas fa-check"></i></div><div><div class="sc-v">৳${pd}</div><div class="sc-l">আদায়</div></div></div><div class="sc"><div class="sc-i" style="background:var(--no)"><i class="fas fa-hourglass"></i></div><div><div class="sc-v">৳${pn}</div><div class="sc-l">বকেয়া</div></div></div>`;
+document.getElementById('fSel').innerHTML='<option value="">— নির্বাচন —</option>'+D.students.map(s=>`<option value="${s.id}">${s.name} (${s.roll})</option>`).join('');
+let h='';D.students.filter(s=>s.batch===cB).forEach(s=>(s.fines||[]).forEach(f=>{h+=`<div class="fc${f.paid?' paid':''}"><div><b>${s.name}</b> — ${f.reason}<br><small style="color:var(--text3)">${fmt(f.d)}</small></div><div style="display:flex;align-items:center;gap:8px"><span class="fc-a">৳${f.amt}</span>${f.paid?'<span class="badge badge-ok">✓</span>':`<button class="btn btn-ok btn-xs" onclick="payF('${s.id}','${f.id}')">পরিশোধ</button>`}</div></div>`}));
+document.getElementById('allFines').innerHTML=h||'<p style="color:var(--text3)">নেই</p>';renderStuFines()}
+function renderStuFines(){const sid=document.getElementById('fSel').value;if(!sid){document.getElementById('sfList').innerHTML='';return}const s=D.students.find(x=>x.id===sid);if(!s||!(s.fines||[]).length){document.getElementById('sfList').innerHTML='<p style="color:var(--text3)">নেই</p>';return}document.getElementById('sfList').innerHTML=s.fines.map((f,i)=>`<div class="fc${f.paid?' paid':''}"><div><input type="checkbox" class="fck" data-s="${sid}" data-i="${i}"> <b>${f.reason}</b><br><small style="color:var(--text3)">মূল: ৳${f.orig} | ছাড়: ৳${f.disc||0}</small></div><div><span class="fc-a">৳${f.amt}</span></div></div>`).join('')}
+function applyDisc(){const a=parseInt(document.getElementById('dAmt').value);if(!a){toast('পরিমাণ দিন','w');return}document.querySelectorAll('.fck:checked').forEach(c=>{const s=D.students.find(x=>x.id===c.dataset.s),f=s?.fines[+c.dataset.i];if(f&&!f.paid){f.disc=(f.disc||0)+a;f.amt=Math.max(0,f.orig-f.disc)}});document.getElementById('dAmt').value='';saveAll();renderFP();toast('ছাড়','ok')}
+function markPaid(){document.querySelectorAll('.fck:checked').forEach(c=>{const s=D.students.find(x=>x.id===c.dataset.s),f=s?.fines[+c.dataset.i];if(f)f.paid=true});saveAll();renderFP();toast('পরিশোধিত','ok')}
+function payF(sid,fid){const s=D.students.find(x=>x.id===sid),f=(s?.fines||[]).find(x=>x.id===fid);if(f){f.paid=true;saveAll();renderFP();renderTDash();toast('পরিশোধিত','ok')}}
+function saveCfg(){const c=D.settings;c.fineAbsent=+document.getElementById('cFA').value||50;c.fineFriday=+document.getElementById('cFF').value||100;c.fineExamAbs=+document.getElementById('cFEA').value||200;c.fineExamFail=+document.getElementById('cFEF').value||100;c.passMark=+document.getElementById('cPM').value||5;closeModal('mCfg');saveAll();toast('সেটিংস সেভ','ok')}
+
+// NOTICES
+function renderNP(){
+document.getElementById('permNotices').innerHTML=D.permanentNotices.map(n=>`<div class="np np-perm"><b>📌</b> ${n.text}</div>`).join('');
+document.getElementById('nExp').value=td();
+document.getElementById('nList').innerHTML=(D.tempNotices||[]).map((n,i)=>`<div class="nt"><b>📋</b> ${n.text} <small>(${fmt(n.expiry)})</small> <button class="btn btn-no btn-xs" style="float:right" onclick="delN(${i})"><i class="fas fa-trash"></i></button></div>`).join('')}
+function addTNotice(){const t=document.getElementById('tNotice').value.trim(),e=document.getElementById('nExp').value;if(!t){toast('লিখুন','w');return}if(!D.tempNotices)D.tempNotices=[];D.tempNotices.push({text:t,expiry:e||td()});document.getElementById('tNotice').value='';saveAll();renderNP();toast('যোগ হয়েছে','ok')}
+function delN(i){D.tempNotices.splice(i,1);saveAll();renderNP()}
+
+// MESSAGES
+function renderMP(){document.getElementById('mSel').innerHTML='<option value="">— নির্বাচন —</option>'+D.students.map(s=>`<option value="${s.id}">${s.name} (${s.roll})</option>`).join('');document.getElementById('sentMsgs').innerHTML=(D.messages||[]).filter(m=>m.from==='teacher').slice(-10).reverse().map(m=>{const s=D.students.find(x=>x.id===m.sid);return`<div class="mi"><b>${s?.name||'—'}</b>: ${m.text}<br><small style="color:var(--text3)">${m.date}</small></div>`}).join('')||'<p style="color:var(--text3)">নেই</p>'}
+function sendMsg(){const sid=document.getElementById('mSel').value,txt=document.getElementById('mTxt').value.trim();if(!sid||!txt){toast('পূরণ করুন','w');return}const par=D.parents.find(p=>p.children?.includes(sid));D.messages.push({id:'M'+uid(),from:'teacher',to:par?.id||'',sid,text:txt,date:new Date().toLocaleString('bn-BD')});document.getElementById('mTxt').value='';saveAll();renderMP();toast('পাঠানো ✉️','ok')}
+
+// MCQ
+function renderMCQManager(){
+document.getElementById('mcqBatch').innerHTML=BT.map(b=>`<option>${b}</option>`).join('');
+document.getElementById('mcqQuestions').innerHTML='';mcqQCount=0;addMCQQ();
+let h='';(D.mcqExams||[]).forEach((ex,i)=>{h+=`<div class="mi" style="display:flex;justify-content:space-between;align-items:center"><div><b>${ex.name}</b> | ${ex.batch} | ${ex.questions.length} প্রশ্ন<br><small style="color:var(--text3)">${fmt(ex.date)}</small></div><button class="btn btn-no btn-xs" onclick="delMCQExam(${i})"><i class="fas fa-trash"></i></button></div>`});
+document.getElementById('mcqExamList').innerHTML=h||'<p style="color:var(--text3)">নেই</p>';
+let rh='';(D.mcqResults||[]).forEach(r=>{const s=D.students.find(x=>x.id===r.sid);const ex=(D.mcqExams||[]).find(x=>x.id===r.examId);rh+=`<div class="mi"><b>${s?.name||'—'}</b> — ${ex?.name||'—'}: <span style="color:${r.score>=r.total*0.5?'var(--ok)':'var(--no)'}">${r.score}/${r.total}</span></div>`});
+document.getElementById('mcqResults').innerHTML=rh||'<p style="color:var(--text3)">নেই</p>'}
+function addMCQQ(){mcqQCount++;const n=mcqQCount;document.getElementById('mcqQuestions').innerHTML+=`<div class="mcq-add-item"><b style="color:var(--p)">প্রশ্ন ${n}</b><input id="mcqqt_${n}" placeholder="প্রশ্ন"><input id="mcqo1_${n}" placeholder="অপশন ক"><input id="mcqo2_${n}" placeholder="অপশন খ"><input id="mcqo3_${n}" placeholder="অপশন গ"><input id="mcqo4_${n}" placeholder="অপশন ঘ"><select id="mcqans_${n}"><option value="0">সঠিক: ক</option><option value="1">সঠিক: খ</option><option value="2">সঠিক: গ</option><option value="3">সঠিক: ঘ</option></select></div>`}
+function publishMCQ(){const name=document.getElementById('mcqExName').value.trim(),time=+document.getElementById('mcqTime').value||10,batch=document.getElementById('mcqBatch').value;if(!name){toast('নাম দিন','w');return}const questions=[];for(let i=1;i<=mcqQCount;i++){const q=document.getElementById('mcqqt_'+i)?.value?.trim();if(!q)continue;questions.push({q,o:[document.getElementById('mcqo1_'+i).value.trim()||'ক',document.getElementById('mcqo2_'+i).value.trim()||'খ',document.getElementById('mcqo3_'+i).value.trim()||'গ',document.getElementById('mcqo4_'+i).value.trim()||'ঘ'],a:+document.getElementById('mcqans_'+i).value})}if(!questions.length){toast('প্রশ্ন যোগ করুন','w');return}D.mcqExams.push({id:'MCQ'+uid(),name,time,batch,questions,date:td(),active:true});saveAll();renderMCQManager();toast('MCQ প্রকাশিত ✅','ok')}
+function delMCQExam(i){if(confirm('মুছবেন?')){D.mcqExams.splice(i,1);saveAll();renderMCQManager()}}
+
+// ===== STUDENT =====
+function renderSDash(){
+if(!U||U.type!=='student')return;
+const s=D.students.find(x=>x.id===U.id);if(!s)return;
+document.getElementById('sNameH').textContent=s.name;document.getElementById('sFN').textContent=s.name;
+document.getElementById('sI1').textContent=`রোল: ${s.roll} | সেকশন: ${s.sec} | ব্যাচ: ${s.batch} | GPA: ${s.gpa||'—'}`;
+document.getElementById('sI2').textContent=`মোবাইল: ${s.phone||'—'} | WhatsApp: ${s.whatsapp||'—'}`;
+const pr=(s.att||[]).filter(a=>a.s==='present').length,ab=(s.att||[]).filter(a=>a.s==='absent').length,lt=(s.att||[]).filter(a=>a.s==='late').length;
+const pf=(s.fines||[]).filter(f=>!f.paid).reduce((x,f)=>x+f.amt,0);
+const avgM=(s.exams||[]).length?Math.round((s.exams||[]).reduce((x,e)=>x+e.m,0)/s.exams.length*10)/10:0;
+const attPct=(s.att||[]).length?Math.round((pr+lt)/(s.att||[]).length*100):0;
+document.getElementById('sStats').innerHTML=`
+<div class="sc"><div class="sc-i" style="background:var(--ok)"><i class="fas fa-check-circle"></i></div><div><div class="sc-v">${pr}</div><div class="sc-l">উপস্থিত</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--no)"><i class="fas fa-times-circle"></i></div><div><div class="sc-v">${ab}</div><div class="sc-l">অনুপস্থিত</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--warn)"><i class="fas fa-clock"></i></div><div><div class="sc-v">${lt}</div><div class="sc-l">দেরিতে</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--s)"><i class="fas fa-coins"></i></div><div><div class="sc-v">৳${pf}</div><div class="sc-l">বকেয়া</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--info)"><i class="fas fa-chart-line"></i></div><div><div class="sc-v">${avgM}</div><div class="sc-l">গড় নম্বর</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--p)"><i class="fas fa-percentage"></i></div><div><div class="sc-v">${attPct}%</div><div class="sc-l">উপস্থিতি</div></div></div>`;
+
+// Congrats/Fail banners
+let cg='';const lastExam=(s.exams||[]).slice(-1)[0];
+if(lastExam){
+if(lastExam.m===lastExam.t)cg=`<div class="congrats-banner"><h3>🎉 অভিনন্দন! 🎉</h3><p>${lastExam.sub} পরীক্ষায় পূর্ণ নম্বর পেয়েছো! ${lastExam.m}/${lastExam.t}</p></div>`;
+else if(lastExam.m<D.settings.passMark)cg=`<div class="fail-banner"><h3>😞 ফেল হয়েছো</h3><p>${lastExam.sub}: ${lastExam.m}/${lastExam.t} — আরও চেষ্টা করো!</p></div>`}
+document.getElementById('sCongrats').innerHTML=cg;
+
+// Notices
+let nh='';D.permanentNotices.forEach(n=>nh+=`<div class="np np-perm">${n.text}</div>`);
+(D.tempNotices||[]).filter(n=>n.expiry>=td()).forEach(n=>nh+=`<div class="nt">${n.text}</div>`);
+document.getElementById('sNotices').innerHTML=nh;
+const prog=document.getElementById('sAttProg');if(prog)prog.style.width=attPct+'%';
+document.getElementById('sAttPct').textContent=`উপস্থিতি: ${attPct}% (${pr+lt}/${(s.att||[]).length})`;
+
+// Exams with color coding
+document.getElementById('sExams').innerHTML=(s.exams||[]).slice(-10).reverse().map(e=>{
+const isPerfect=e.m===e.t,isFail=e.m<D.settings.passMark;
+return`<div class="exam-result ${isPerfect?'perfect':isFail?'fail':'pass'}"><div><b>${e.sub}</b>${isPerfect?' 🏆 পূর্ণ নম্বর!':isFail?' ❌ ফেল':' ✅ পাস'}<br><small style="color:var(--text3)">${fmt(e.d)}</small></div><div class="exam-score ${isPerfect?'perfect-score':isFail?'fail-score':'pass-score'}">${e.m}/${e.t}</div></div>`}).join('')||'<p style="color:var(--text3)">নেই</p>';
+
+// Fines
+document.getElementById('sFines').innerHTML=(s.fines||[]).map(f=>`<div class="fc${f.paid?' paid':''}"><div><b>${f.reason}</b><br><small style="color:var(--text3)">${fmt(f.d)}</small></div><div><span class="fc-a">৳${f.amt}</span> ${f.paid?'<span class="badge badge-ok">✓</span>':'<span class="badge badge-no">বকেয়া</span>'}</div></div>`).join('')||'<p style="color:var(--text3)">নেই 🎉</p>';
+
+// Messages
+const msgs=(D.messages||[]).filter(m=>m.sid===s.id).slice(-5).reverse();
+document.getElementById('sMsgs').innerHTML=msgs.map(m=>`<div class="mi">${m.text}<br><small style="color:var(--text3)">${m.date}</small></div>`).join('')||'<p style="color:var(--text3)">নেই</p>'}
+
+function renderStuCalendar(){if(!U)return;const s=D.students.find(x=>x.id===U.id);if(s)buildCalendar(s.att||[],'sCalendar')}
+
+function renderFormulas(){
+document.getElementById('formulaList').innerHTML=
+'<h3 style="color:var(--p);margin-bottom:16px">📗 প্রথম পত্র</h3>'+
+CHAPTERS.filter(c=>c.p===1).map(ch=>`<div style="margin-bottom:16px"><h4 style="color:var(--text4);margin-bottom:8px"><span style="color:var(--p)">${ch.n}.</span> ${ch.t}</h4>${ch.f.map(f=>`<div class="formula-card"><div class="eq">${f}</div><small>${ch.t}</small></div>`).join('')}</div>`).join('')+
+'<h3 style="color:var(--s);margin:20px 0 16px">📘 দ্বিতীয় পত্র</h3>'+
+CHAPTERS.filter(c=>c.p===2).map(ch=>`<div style="margin-bottom:16px"><h4 style="color:var(--text4);margin-bottom:8px"><span style="color:var(--s)">${ch.n}.</span> ${ch.t}</h4>${ch.f.map(f=>`<div class="formula-card"><div class="eq">${f}</div><small>${ch.t}</small></div>`).join('')}</div>`).join('')}
+
+// MCQ STUDENT
+function renderMCQStudent(){
+if(!U)return;const s=D.students.find(x=>x.id===U.id);if(!s)return;
+const exams=(D.mcqExams||[]).filter(e=>e.active&&e.batch===s.batch);
+const taken=(D.mcqResults||[]).filter(r=>r.sid===U.id).map(r=>r.examId);
+document.getElementById('mcqTimer').classList.add('hidden');
+document.getElementById('mcqTestArea').innerHTML='';document.getElementById('mcqTestBtns').innerHTML='';
+if(activeMCQ){renderActiveMCQ();return}
+let h='';exams.forEach(ex=>{const done=taken.includes(ex.id);const res=(D.mcqResults||[]).find(r=>r.sid===U.id&&r.examId===ex.id);
+h+=`<div class="mi" style="display:flex;justify-content:space-between;align-items:center"><div><b>${ex.name}</b><br><small style="color:var(--text3)">${ex.questions.length} প্রশ্ন | ${ex.time} মিনিট</small></div>${done?`<span class="badge ${res&&res.score>=res.total*0.5?'badge-ok':'badge-no'}">${res?.score||0}/${res?.total||0}</span>`:`<button class="btn btn-p btn-sm" onclick="startMCQTest('${ex.id}')"><i class="fas fa-play"></i> শুরু</button>`}</div>`});
+document.getElementById('mcqAvailable').innerHTML=h||'<p style="color:var(--text3)">কোন পরীক্ষা নেই</p>'}
+function startMCQTest(exId){const ex=(D.mcqExams||[]).find(x=>x.id===exId);if(!ex)return;activeMCQ={exam:ex,answers:new Array(ex.questions.length).fill(-1),startTime:Date.now(),timeLimit:ex.time*60};document.getElementById('mcqAvailable').innerHTML='';renderActiveMCQ();startMCQTimer()}
+function renderActiveMCQ(){if(!activeMCQ)return;const ex=activeMCQ.exam;document.getElementById('mcqTimer').classList.remove('hidden');document.getElementById('mcqTestArea').innerHTML=ex.questions.map((q,qi)=>`<div class="quiz-q" id="mcqq_r_${qi}"><h4>${qi+1}. ${q.q}</h4><div class="quiz-opt">${q.o.map((o,oi)=>`<label><input type="radio" name="mcq${qi}" value="${oi}" onchange="mcqAns(${qi},${oi})">${o}</label>`).join('')}</div></div>`).join('');document.getElementById('mcqTestBtns').innerHTML=`<button class="btn btn-ok btn-full mt" onclick="submitMCQTest()"><i class="fas fa-paper-plane"></i> জমা দিন</button>`}
+function mcqAns(qi,oi){if(activeMCQ)activeMCQ.answers[qi]=oi}
+function startMCQTimer(){if(mcqInterval)clearInterval(mcqInterval);mcqInterval=setInterval(()=>{if(!activeMCQ){clearInterval(mcqInterval);return}const el=Math.floor((Date.now()-activeMCQ.startTime)/1000),rem=Math.max(0,activeMCQ.timeLimit-el);const m=Math.floor(rem/60).toString().padStart(2,'0'),s=(rem%60).toString().padStart(2,'0');document.getElementById('mcqTimer').textContent=m+':'+s;if(rem<=0){submitMCQTest();clearInterval(mcqInterval)}},1000)}
+function submitMCQTest(){if(!activeMCQ)return;const ex=activeMCQ.exam;let score=0;ex.questions.forEach((q,i)=>{const qdiv=document.getElementById('mcqq_r_'+i);if(activeMCQ.answers[i]===q.a){score++;if(qdiv)qdiv.classList.add('correct')}else if(qdiv)qdiv.classList.add('wrong')});D.mcqResults.push({id:'MR'+uid(),examId:ex.id,sid:U.id,score,total:ex.questions.length,date:td()});document.querySelectorAll('#mcqTestArea input[type=radio]').forEach(r=>r.disabled=true);document.getElementById('mcqTestBtns').innerHTML=`<div style="text-align:center;width:100%;margin-top:16px"><h3 style="color:${score>=ex.questions.length*0.5?'var(--ok)':'var(--no)'}">${score}/${ex.questions.length}</h3><button class="btn btn-p mt" onclick="activeMCQ=null;renderMCQStudent()">ফিরে যান</button></div>`;if(mcqInterval)clearInterval(mcqInterval);saveAll();toast(`${score}/${ex.questions.length}`,score>=ex.questions.length*0.5?'ok':'no')}
+
+// LEADERBOARD
+function renderLB(){
+const board=D.students.map(s=>{const avg=(s.exams||[]).length?Math.round((s.exams||[]).reduce((x,e)=>x+e.m/e.t*100,0)/s.exams.length):0;const att=(s.att||[]).length?Math.round((s.att||[]).filter(a=>a.s==='present'||a.s==='late').length/(s.att||[]).length*100):0;const mcqR=(D.mcqResults||[]).filter(r=>r.sid===s.id);const mcqAvg=mcqR.length?Math.round(mcqR.reduce((x,r)=>x+r.score/r.total*100,0)/mcqR.length):0;return{name:s.name,roll:s.roll,batch:s.batch,score:Math.round(avg*.4+att*.3+mcqAvg*.3),avg,att,mcqAvg,id:s.id}}).sort((a,b)=>b.score-a.score);
+document.getElementById('lbList').innerHTML=board.map((b,i)=>{const rc=i===0?'r1':i===1?'r2':i===2?'r3':'rn';const me=U&&b.id===U.id;return`<div class="lb-item" style="${me?'background:rgba(6,182,212,.06);border-color:rgba(6,182,212,.2)':''}"><div class="lb-rank ${rc}">${i+1}</div><div style="flex:1"><b style="color:var(--text)">${b.name}</b> ${me?'⭐':''}<br><small style="color:var(--text3)">${b.batch} | পরীক্ষা ${b.avg}% | হাজিরা ${b.att}%</small></div><div style="text-align:right"><div style="font-size:20px;font-weight:800;color:var(--p)">${b.score}</div><small style="color:var(--text3)">পয়েন্ট</small></div></div>`}).join('')||'<p style="color:var(--text3)">ডেটা নেই</p>'}
+
+// ===== PARENT =====
+function renderPDash(){
+if(!U||U.type!=='parent')return;const par=D.parents.find(p=>p.id===U.id);if(!par)return;
+const ch=D.students.filter(s=>(par.children||[]).includes(s.id));
+
+// Parent stats
+let totalFines=0,totalAtt=0,totalPresent=0;
+ch.forEach(c=>{totalFines+=(c.fines||[]).filter(f=>!f.paid).reduce((x,f)=>x+f.amt,0);totalAtt+=(c.att||[]).length;totalPresent+=(c.att||[]).filter(a=>a.s==='present'||a.s==='late').length});
+const overallAtt=totalAtt?Math.round(totalPresent/totalAtt*100):0;
+document.getElementById('pStats').innerHTML=`
+<div class="sc"><div class="sc-i" style="background:var(--p)"><i class="fas fa-child"></i></div><div><div class="sc-v">${ch.length}</div><div class="sc-l">সন্তান</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--ok)"><i class="fas fa-percentage"></i></div><div><div class="sc-v">${overallAtt}%</div><div class="sc-l">হাজিরা</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--no)"><i class="fas fa-coins"></i></div><div><div class="sc-v">৳${totalFines}</div><div class="sc-l">বকেয়া</div></div></div>`;
+
+// Children details
+document.getElementById('pChild').innerHTML=ch.map(c=>{
+const a=(c.att||[]).find(x=>x.d===td()),st=a?(a.s==='present'?'✅ উপস্থিত':a.s==='late'?'⏰ দেরি':'❌ অনুপস্থিত'):'—';
+const pf=(c.fines||[]).filter(f=>!f.paid).reduce((x,f)=>x+f.amt,0);
+const attPct=(c.att||[]).length?Math.round((c.att||[]).filter(x=>x.s==='present'||x.s==='late').length/(c.att||[]).length*100):0;
+const avgM=(c.exams||[]).length?Math.round((c.exams||[]).reduce((x,e)=>x+e.m,0)/c.exams.length*10)/10:0;
+const lastExam=(c.exams||[]).slice(-1)[0];
+return`<div class="child-card"><h4 style="color:var(--text)">${c.name} (${c.roll})</h4><p style="color:var(--text3);font-size:12px">${c.batch} | GPA: ${c.gpa||'—'}</p>
+<div class="child-stat">
+<div class="mini">আজ: ${st}</div><div class="mini">হাজিরা: ${attPct}%</div>
+<div class="mini" style="color:var(--no)">বকেয়া: ৳${pf}</div><div class="mini">গড়: ${avgM}/10</div>
+</div>
+${lastExam?`<div style="margin-top:8px;padding:8px;border-radius:8px;background:${lastExam.m===lastExam.t?'rgba(251,191,36,.1)':lastExam.m<D.settings.passMark?'rgba(239,68,68,.1)':'rgba(16,185,129,.1)'}"><small style="color:var(--text3)">শেষ পরীক্ষা:</small> <b>${lastExam.sub}: ${lastExam.m}/${lastExam.t}</b> ${lastExam.m===lastExam.t?'🏆':lastExam.m<D.settings.passMark?'❌ ফেল':'✅ পাস'}</div>`:''}</div>`}).join('')||'<p style="color:var(--text3)">নেই</p>';
+
+// Parent exam view
+let eh='';ch.forEach(c=>{(c.exams||[]).slice(-5).reverse().forEach(e=>{const isPerfect=e.m===e.t,isFail=e.m<D.settings.passMark;
+eh+=`<div class="exam-result ${isPerfect?'perfect':isFail?'fail':'pass'}"><div><b>${c.name}</b> — ${e.sub}<br><small style="color:var(--text3)">${fmt(e.d)}</small></div><div class="exam-score ${isPerfect?'perfect-score':isFail?'fail-score':'pass-score'}">${e.m}/${e.t}</div></div>`})});
+document.getElementById('pExams').innerHTML=eh||'<p style="color:var(--text3)">নেই</p>';
+
+// Calendar for first child
+if(ch.length)buildCalendar(ch[0].att||[],'pCalendar');
+
+// Fines
+let fh='';ch.forEach(c=>(c.fines||[]).forEach(f=>{fh+=`<div class="fc${f.paid?' paid':''}"><div><b>${c.name}</b> — ${f.reason}<br><small style="color:var(--text3)">${fmt(f.d)}</small></div><div><span class="fc-a">৳${f.amt}</span> ${f.paid?'<span class="badge badge-ok">✓</span>':'<span class="badge badge-no">বকেয়া</span>'}</div></div>`}));
+document.getElementById('pFines').innerHTML=fh||'<p style="color:var(--text3)">নেই</p>';
+
+// Messages
+const msgs=(D.messages||[]).filter(m=>m.to===par.id).slice(-10).reverse();
+document.getElementById('pMsgs').innerHTML=msgs.map(m=>{const s=D.students.find(x=>x.id===m.sid);return`<div class="mi"><b>${s?.name||''}</b>: ${m.text}<br><small style="color:var(--text3)">${m.date}</small></div>`}).join('')||'<p style="color:var(--text3)">নেই</p>';
+
+// Notices
+let nh='';D.permanentNotices.forEach(n=>nh+=`<div class="np np-perm">${n.text}</div>`);
+(D.tempNotices||[]).filter(n=>n.expiry>=td()).forEach(n=>nh+=`<div class="nt">${n.text}</div>`);
+document.getElementById('pNotices').innerHTML=nh;
+
+// Report
+renderPReport(ch);
+// Sent messages
+const psm=(D.parentMessages||[]).filter(m=>m.from===par.id).slice(-5).reverse();
+document.getElementById('pSentMsgs').innerHTML=psm.map(m=>`<div class="mi">${m.text}<br><small style="color:var(--text3)">${m.date}</small></div>`).join('')||'<p style="color:var(--text3)">নেই</p>'}
+
+function renderPReport(ch){
+let h='';ch.forEach(c=>{
+const attPct=(c.att||[]).length?Math.round((c.att||[]).filter(a=>a.s==='present'||a.s==='late').length/(c.att||[]).length*100):0;
+const avgM=(c.exams||[]).length?Math.round((c.exams||[]).reduce((x,e)=>x+e.m/e.t*100,0)/c.exams.length):0;
+const totalFine=(c.fines||[]).filter(f=>!f.paid).reduce((x,f)=>x+f.amt,0);
+const grade=avgM>=90?'A+':avgM>=80?'A':avgM>=70?'B':avgM>=60?'C':avgM>=50?'D':'F';
+h+=`<div class="child-card">
+<h3 style="color:var(--text);text-align:center">${c.name} — রিপোর্ট কার্ড</h3>
+<div class="stats mt">
+<div class="sc"><div class="sc-i" style="background:var(--p)"><i class="fas fa-graduation-cap"></i></div><div><div class="sc-v">${grade}</div><div class="sc-l">গ্রেড</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--ok)"><i class="fas fa-chart-line"></i></div><div><div class="sc-v">${avgM}%</div><div class="sc-l">গড় মার্কস</div></div></div>
+<div class="sc"><div class="sc-i" style="background:var(--info)"><i class="fas fa-calendar-check"></i></div><div><div class="sc-v">${attPct}%</div><div class="sc-l">হাজিরা</div></div></div>
+</div>
+<div class="tw mt"><table><thead><tr><th>বিষয়</th><th>মার্কস</th><th>তারিখ</th><th>ফলাফল</th></tr></thead><tbody>${(c.exams||[]).slice(-10).reverse().map(e=>{const isFail=e.m<D.settings.passMark;return`<tr><td>${e.sub}</td><td style="color:${e.m===e.t?'#fbbf24':isFail?'var(--no)':'var(--ok)'}"><b>${e.m}/${e.t}</b></td><td>${fmt(e.d)}</td><td>${e.m===e.t?'🏆 পূর্ণ':isFail?'<span style="color:var(--no)">❌ ফেল</span>':'<span style="color:var(--ok)">✅ পাস</span>'}</td></tr>`}).join('')}</tbody></table></div></div>`});
+document.getElementById('pReport').innerHTML=h||'<p style="color:var(--text3)">ডেটা নেই</p>'}
+
+function parentSendMsg(){
+if(!U||U.type!=='parent')return;const txt=document.getElementById('pMsgTxt').value.trim();
+if(!txt){toast('বার্তা লিখুন','w');return}
+if(!D.parentMessages)D.parentMessages=[];
+D.parentMessages.push({id:'PM'+uid(),from:U.id,text:txt,date:new Date().toLocaleString('bn-BD')});
+document.getElementById('pMsgTxt').value='';saveAll();renderPDash();toast('বার্তা পাঠানো হয়েছে ✉️','ok')}
+
+// Auto save
+window.addEventListener('beforeunload',()=>localStorage.setItem('napPC4',JSON.stringify(D)));
+setInterval(()=>localStorage.setItem('napPC4',JSON.stringify(D)),5000);
+</script>
+</body>
+</html>
